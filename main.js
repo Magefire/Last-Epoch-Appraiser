@@ -6,12 +6,15 @@ const screenshot = require('screenshot-desktop');
 const fs = require('node:fs')
 const clipboard = require('electron');
 const v = new GlobalKeyboardListener();
-const window = null;
+const readline = require('readline')
 
 function paste(){
     const image = clipboard.clipboard.readImage("clipboard");
     
     fs.writeFileSync(path.join(__dirname,'img.png'),Buffer.from(image.toPNG()));
+}
+function loadcsv(){
+    
 }
 
 v.addListener(function (e, down) {
