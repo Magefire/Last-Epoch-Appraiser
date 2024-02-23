@@ -4,10 +4,15 @@ const { app, BrowserWindow, desktopCapturer, ipcMain, dialog} = require('electro
 const { recognize } = require('tesseract.js');
 const screenshot = require('screenshot-desktop');
 const fs = require('node:fs')
-
+const clipboard = require('electron');
 const v = new GlobalKeyboardListener();
 const window = null;
 
+function paste(){
+    const image = clipboard.clipboard.readImage("clipboard");
+    
+    fs.writeFileSync(path.join(__dirname,'img.png'),Buffer.from(image.toPNG()));
+}
 
 v.addListener(function (e, down) {
     if (e.state == "DOWN" && e.name == "D" && (down["LEFT CTRL"] || down["RIGHT CTRL"])) {
@@ -23,18 +28,23 @@ v.addListener(function (e, down) {
         return true;
     }
 });
+v.addListener(function (e, down) {
+    if (e.state == "DOWN" && e.name == "A" && (down["LEFT CTRL"] || down["RIGHT CTRL"])) {
+        paste()
+        return true;
+    }
+});
 
 function popup(){
-    screenshot({ filename: 'shot.png' }).then((imgPath) => {
-        recognize("shot.png","eng").then(out => {
+        recognize("img.png","eng").then(out => {
             console.log(out.data.text)
             dialog.showMessageBox(mainWindow,{
-                message : out.data.text
+                message : out.data.text.toLowerCase()
             })
 
         });
-    });
 }
+
 
 function createMainWindow(){
     const mainWindow = new BrowserWindow({

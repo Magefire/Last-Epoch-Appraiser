@@ -11,6 +11,7 @@
   "license": "GPL-2.0-only",
   "dependencies": {
     "electron": "^29.0.1",
+    "g-sheets-api": "^2.2.0",
     "node-global-key-listener": "^0.1.1",
     "screenshot-desktop": "^1.15.0",
     "tesseract.js": "^5.0.4"
