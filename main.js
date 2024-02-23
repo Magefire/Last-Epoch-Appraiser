@@ -47,6 +47,7 @@ function createMainWindow(){
     mainWindow.setFocusable(false);
     mainWindow.maximize();
     mainWindow.loadFile(path.join(__dirname,"./src/index.html"))
+    mainWindow.setAlwaysOnTop(true);
     return mainWindow
 }
 
