@@ -1,0 +1,18 @@
+{
+  "name": "last-epoch-appraiser",
+  "productName": "Last Epoch Appraiser",
+  "version": "1.0.0",
+  "description": "App to price check last epoch items",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Magefire",
+  "license": "GPL-2.0-only",
+  "dependencies": {
+    "electron": "^29.0.1",
+    "node-global-key-listener": "^0.1.1",
+    "screenshot-desktop": "^1.15.0",
+    "tesseract.js": "^5.0.4"
+  }
+}
