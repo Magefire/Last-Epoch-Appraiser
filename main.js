@@ -7,14 +7,26 @@ const fs = require('node:fs')
 const clipboard = require('electron');
 const v = new GlobalKeyboardListener();
 const readline = require('readline')
+const uniques = []
 
 function paste(){
     const image = clipboard.clipboard.readImage("clipboard");
     
     fs.writeFileSync(path.join(__dirname,'img.png'),Buffer.from(image.toPNG()));
 }
-function loadcsv(){
-    
+function loadcsv(filepath){
+    var lineReader = readline.createInterface({
+        input: fs.createReadStream(filepath)
+      });
+      
+      lineReader.on('line', function (line) {
+        uniques.push(line);
+        console.log(line);
+      });
+      
+      lineReader.on('close', function () {
+          console.log('all done, son');
+      });
 }
 
 v.addListener(function (e, down) {
@@ -41,8 +53,16 @@ v.addListener(function (e, down) {
 function popup(){
         recognize("img.png","eng").then(out => {
             console.log(out.data.text)
+            msg = "Raw Data:" + out.data.text.toLowerCase() +"\n\n" + "Unique: "
+            for(i in uniques){
+                console.log(uniques[i]);
+                if (out.data.text.toLowerCase().includes(uniques[i].toLowerCase())){
+                    msg += uniques[i];
+                    break;
+                }
+            } 
             dialog.showMessageBox(mainWindow,{
-                message : out.data.text.toLowerCase()
+                message : msg
             })
 
         });
@@ -66,6 +86,8 @@ function createMainWindow(){
 
 app.whenReady().then(()=>{
     mainWindow = createMainWindow();
+    loadcsv("UniqueList.csv");
+    console.log(uniques);
 })
 
 app.on('window-all-closed', () => {
