@@ -56,8 +56,8 @@ function popup(){
             msg = "Raw Data:" + out.data.text.toLowerCase() +"\n\n" + "Unique: "
             for(i in uniques){
                 console.log(uniques[i]);
-                if (out.data.text.toLowerCase().includes(uniques[i].toLowerCase())){
-                    msg += uniques[i];
+                if (out.data.text.toLowerCase().includes(uniques[i].toLowerCase().split(",")[0])){
+                    msg += uniques[i].split(",")[0] +"\n Price:" +uniques[i].split(",")[1];
                     break;
                 }
             } 
